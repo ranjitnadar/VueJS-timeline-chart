@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container-fluid">
-    <Header/>
+    <app-header/>
     <div class="container">
       <tl-chart-form :title="formTitle" @submitForm="onFormSubmit"/>
       <div class="time-line-container">
@@ -8,7 +8,7 @@
         <time-line-chart v-if="timeline.length > 0" :data="timeline" :title="timelineTitle"></time-line-chart>
       </div>
     </div>
-    <Footer/>
+    <app-footer/>
   </div>
 </template>
 
@@ -17,11 +17,12 @@ import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import Timelinechart from './components/Timelinechart.vue'
 import Form from './components/Form.vue';
+import axios from 'axios';
 export default {
   name: 'app',
   components: {
-    Header,
-    Footer,
+    "app-header":Header,
+    "app-footer":Footer,
     "time-line-chart":Timelinechart,
     "tl-chart-form":Form
   },
@@ -59,46 +60,32 @@ export default {
             }
           );
         }
+
+    },
+    getData(){
+      axios.get('http://api.jsonbin.io/b/5b88ec4eab9a186eafe32547').then(res=>{
+        let newarr = res.data.map(d =>{
+          let newD =  d.data.map(r=>{
+            r.at = new Date(r.at);
+            return r;
+          })
+          d.data = newD;
+          return d;
+        });
+        this.timeline = newarr;
+      }).catch(e =>{
+        console.log(e);
+      })
     }
   },
   mounted(){
+    this.getData();
   },
   data(){
     return{
       timelineTitle:"time line chart",
       formTitle: "Event Form",
-      timeline:[
-        {
-          label: "Event-1",
-          data: [
-            {
-              type: "POINT",
-              at: new Date([2018, 1, 1]),
-              msg:'Tooltip 1'
-            },
-            {
-              type: "POINT",
-              at: new Date([2018, 5, 15]),
-              msg:'Tooltip 2'
-            }
-          ]
-        },
-        {
-          label: "Event-2",
-          data: [
-            {
-              type: "POINT",
-              at: new Date([2018, 1, 11]),
-              msg:'Tooltip 3'
-            },
-            {
-              type: "POINT",
-              at: new Date([2018, 8, 25]),
-              msg:'Tooltip 4'
-            }
-          ]
-        }
-      ]
+      timeline:[]
     }
   }
 }

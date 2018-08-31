@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: "footer",
+  name: "app-footer",
   data() {
     return {};
   },

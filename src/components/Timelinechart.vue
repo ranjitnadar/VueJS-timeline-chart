@@ -22,7 +22,6 @@ export default {
        * deep true to check nested array
        */
       handler: function(newVal, oldVal) {
-        //console.log(newVal.length, oldVal.length);
         this.timeline = newVal;
         this.initCall();
       },
@@ -65,8 +64,9 @@ export default {
       document.getElementById("timechart").innerHTML = "";
       let element = document.getElementById("timechart");
       this.chart(element, this.timeline, {
-        tip: function(d) {
-          return `<span class="tooltiptext">${d.msg || d.at}`;
+        tip: (d) => {
+          let mlist = [ "Jan", "Feb", "March", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+          return `<span class="tooltiptext">${d.msg} <em> ${this.getDatesuffix(new Date(d.at).getDate())} ${mlist[new Date(d.at).getMonth()]}  ${new Date(d.at).getFullYear()} </em></span>`;
         }
       });
     },
@@ -79,7 +79,7 @@ export default {
       el.classList.add("d3-time-line-chart");
       this.tlconfig.options = this.extendOptions(opts);
       //allEl: all element
-      this.tlconfig.allEl = data.reduce((agg, e) => agg.concat(e.data), []);
+      this.tlconfig.allEl = data.reduce((agg, e) => agg.concat(e.data),[]);
       this.tlconfig.minDt = d3.min(this.tlconfig.allEl, this.getPointMinDt);
       this.tlconfig.maxDt = d3.max(this.tlconfig.allEl, this.getPointMaxDt);
       this.tlconfig.elWidth = this.tlconfig.options.width || el.clientWidth;
@@ -278,80 +278,95 @@ export default {
      */
     getPointMaxDt(p) {
       return p.type === "POINT" ? p.at : p.to;
+    },
+    
+    /**
+     * param date:number
+     * result added with suffix 
+     * eg: 1st, 2nd, 3rd so on.
+    */
+    getDatesuffix(n) {
+        let s=["th","st","nd","rd"],
+        v=n%100;
+        return n+(s[(v-20)%10]||s[v]||s[0]);
     }
   }
 };
 </script>
 <style>
 
-*,
-*:after,
-*:before {
-  box-sizing: border-box;
-}
-.d3-time-line-chart .axis path {
-  fill: none;
-  stroke: none;
-}
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+  .d3-time-line-chart .axis path {
+    fill: none;
+    stroke: none;
+  }
 
-.d3-time-line-chart line {
-  stroke: black;
-}
+  .d3-time-line-chart line {
+    stroke: black;
+  }
 
-.d3-time-line-chart rect.interval {
-  ry: 5;
-  rx: 5;
-  fill: black;
-  stroke: #2b2b2b;
-}
-.d3-time-line-chart rect,
-.d3-time-line-chart rect.chart-bounds {
-  fill: transparent;
-}
-#timechart {
-  width: 100%;
-  height: 15em;
-  background: rgba(218, 218, 218, 0.18);
-  opacity: 0.9;
-}
+  .d3-time-line-chart rect.interval {
+    ry: 5;
+    rx: 5;
+    fill: black;
+    stroke: #2b2b2b;
+  }
+  .d3-time-line-chart rect,
+  .d3-time-line-chart rect.chart-bounds {
+    fill: transparent;
+  }
+  #timechart {
+    width: 100%;
+    height: 15em;
+    background: rgba(218, 218, 218, 0.18);
+    opacity: 0.9;
+  }
 
-#timechart line {
-  stroke: #f0f0f0;
-}
+  #timechart line {
+    stroke: #f0f0f0;
+  }
 
-.d3-tip {
-  position: relative;
-  display: inline-block;
-  width:120px;
-  height: 10px;
-}
+  .d3-tip {
+    position: relative;
+    display: inline-block;
+    width:120px;
+    height: 10px;
+  }
 
-.d3-tip .tooltiptext {
-  width:120px;
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-radius: 5px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -60px;
-  border:1px solid #000;
-}
+  .d3-tip .tooltiptext {
+    width:120px;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    border:1px solid #000;
+  }
 
-.d3-tip .tooltiptext::after {
-  content: " ";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #000 transparent transparent transparent;
-}
-
+  .d3-tip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+  }
+  .tooltiptext em {
+      font-size: 0.78em;
+      display: block;
+      color: rgb(100, 100, 100);
+  }
 
   [flex] {
     display: flex;
