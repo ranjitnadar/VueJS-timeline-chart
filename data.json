@@ -1,0 +1,73 @@
+[
+	{
+	  "label": "Event-1",
+	  "data": [
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 1, 1])",
+		  "msg":"new point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 2, 1])",
+		  "msg":"new point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 3, 1])",
+		  "msg":"name point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 4, 1])",
+		  "msg":"name point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 5, 1])",
+		  "msg":"name point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 6, 1])",
+		  "msg":"name point"
+		}
+	  ]
+	},
+	{
+	  "label": "Event-2",
+	  "data": [
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 1, 11])",
+		  "msg":"name point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 1, 15])",
+		  "msg":"name point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 3, 10])",
+		  "msg":"name point"
+		},
+		{
+		  "label": "I'm a label",
+		  "type": "POINT",
+		  "at": "new Date([2018, 2, 1])",
+		  "msg":"name point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 6, 1])",
+		  "msg":"name point"
+		},
+		{
+		  "type": "POINT",
+		  "at": "new Date([2018, 7, 1])",
+		  "msg":"name point"
+		}
+	  ]
+	}
+  ]
